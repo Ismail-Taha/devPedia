@@ -1,21 +1,21 @@
 <template>
   <div class="hello">
-    <img src='@/assets/logo-django.png' style="width: 250px" />
+    <img src='@/assets/dj.png' style="width: 250px"  />
     <p>Django is a Python framework that makes it easier to create web sites using Python. <br>
 
       Django takes care of the difficult stuff so that you can concentrate on building your web applications.</p>
     <br />
     <p>Subject</p>
-    <input type="text" placeholder="Hello" v-model="subject">
+    <input type="text" placeholder="Your Name" v-model="subject">
     <p>Message</p>
-    <input type="text" placeholder="From the other side" v-model="msgBody">
+    <input type="text" placeholder="share your knowledge here" v-model="msgBody">
     <br><br>
     <input type="submit" value="Add" @click="addMessage({ subject: subject, body: msgBody })"
       :disabled="!subject || !msgBody">
 
-    <hr />
-    <h3>Messages on Database</h3>
-    <p v-if="messages.length === 0">No Messages</p>
+    <hr/>
+    <h3>Post your issue here !</h3>
+    <p v-if="messages.length === 0">No Messages Yet</p>
     <div class="msg" v-for="(msg, index) in messages" :key="index">
       <p class="msg-index">[{{ index }}]</p>
       <p class="msg-subject" v-html="msg.subject"></p>
@@ -26,7 +26,7 @@
         <input type="submit" value="Submit" @click="submitAnswer(msg, index)" :disabled="!msg.newComment" />
       </div>
 
-      <input type="submit" @click="deleteMessage(msg.pk)" value="Delete" />
+      <input type="submit" class="del" @click="deleteMessage(msg.pk)" value="Delete" />
       <input type="submit" @click="toggleAnswerInput(msg)" value="Answer" />
 
       <div class="comments" v-if="msg.comments && msg.comments.length">
@@ -84,9 +84,10 @@ export default {
 p {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   /* Casual font */
-  color: #555;
+  color: #003A2B;
   /* Softer text color */
   line-height: 1.6s;
+  margin-top: 1%;
   /* Improve readability */
   font-size: 1.1em;
   /* Slightly larger text */
@@ -144,7 +145,7 @@ input[type="text"]:focus {
 }
 
 input[type="submit"] {
-  background-color: #42b983;
+  background-color: #003A2B;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -152,6 +153,10 @@ input[type="submit"] {
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s;
+  margin-right: 10px;
+} 
+input[type="submit"].del {
+  margin-right: 20px; /* Additional space specifically for the delete button */
 }
 
 .answer-input {
@@ -166,17 +171,6 @@ textarea {
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 1em;
-}
-
-input[type="submit"] {
-  background-color: #42b983;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
 }
 
 input[type="submit"]:hover {

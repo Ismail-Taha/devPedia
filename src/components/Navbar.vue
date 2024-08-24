@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar">
       <router-link to="/" class="nav-link">Home</router-link>
-      <router-link v-if="!isAuthenticated" to="/sign-in" class="nav-link">Sign In</router-link>
+      <router-link v-if="!isAuthenticated" to="/sign-in" class="nav-link">Log In</router-link>
       <router-link v-if="!isAuthenticated" to="/sign-up" class="nav-link">Sign Up</router-link>
       <router-link v-if="isAuthenticated" to="/dashboard" class="nav-link">Dashboard</router-link>
       <button v-if="isAuthenticated" @click="logout" class="nav-link">Logout</button>
@@ -33,16 +33,46 @@
   .navbar {
     display: flex;
     justify-content: space-around;
-    background-color: #333;
-    padding: 1rem;
+    align-items: center;
+    background-color: #376366;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    margin-top: 2%;
   }
 
   .nav-link {
+    box-sizing: border-box;
     color: white;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
     text-decoration: none;
   }
 
   .nav-link:hover {
-    text-decoration: underline;
+    color: #41B883;
+    font-size: 18px;
   }
+  .logout-button {
+  background-color: transparent;
+  border: 1px solid #ECF0F1;
+  color: #ECF0F1;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #1ABC9C;
+  color: #2C3E50;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .nav-link {
+    margin: 0.5rem 0;
+  }
+}
   </style>

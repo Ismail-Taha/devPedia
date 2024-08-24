@@ -3,7 +3,7 @@
     <Navbar />
     <div id="nav">
       <router-link :to="{ name: 'home' }" class="nav-button">Vue</router-link> |
-      <router-link :to="{ name: 'messages' }" class="nav-button">Django</router-link> |
+      <router-link :to="{ name: 'messages' }" class="nav-button" >Django</router-link> |
       <router-link :to="{ name: 'activities' }" class="nav-button">Activity Feed</router-link>
     </div>
     <router-view />
@@ -30,10 +30,10 @@ export default {
 }
 
 .nav-button:hover {
-  background-color: #2c3e50;
+  background-color: #376366;
 }
 
-  #app {
+#app {
     font-family: 'Aveni r', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -41,4 +41,8 @@ export default {
     color: #2c3e50;
     margin-top: 60px;
   }
+#nav {
+  color: #376366;
+  margin-top: 2%;
+}
 </style>
