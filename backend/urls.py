@@ -7,22 +7,19 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-
-from .api.views import index_view, MessageViewSet
+from backend.api.views import index_view, MessageViewSet
+from backend.api.auth_views import RegisterView, LoginView
 
 router = routers.DefaultRouter()
-router.register('messages', MessageViewSet)
+router.register(r'messages', MessageViewSet)
 
 urlpatterns = [
-
-    # http://localhost:8000/
-    path('', index_view, name='index'),
-
-    # http://localhost:8000/api/<router-viewsets>
+    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-
-    # http://localhost:8000/api/admin/
-    path('api/admin/', admin.site.urls),
+    path('api/auth/register/', RegisterView.as_view(), name='register'),
+    path('api/auth/login/', LoginView.as_view(), name='login'),
+    path('', index_view, name='index'),
 ]
+
 
 

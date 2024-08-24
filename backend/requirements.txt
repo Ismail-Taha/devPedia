@@ -2,3 +2,4 @@ Django>=3.2
 djangorestframework
 whitenoise
 urllib3
+djangorestframework-simplejwt

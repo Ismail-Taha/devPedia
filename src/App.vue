@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Want To Learn</h1>
+    <Navbar />
     <div id="nav">
       <router-link :to="{ name: 'home' }" class="nav-button">Vue</router-link> |
       <router-link :to="{ name: 'messages' }" class="nav-button">Django</router-link> |
@@ -9,6 +9,16 @@
     <router-view />
   </div>
 </template>
+
+<script>
+import Navbar from './components/Navbar.vue';
+
+export default {
+  components: {
+    Navbar
+  }
+};
+</script>
 
 <style scoped>
 .nav-button {
