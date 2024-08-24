@@ -1,27 +1,38 @@
 <template>
   <div class="hello">
     <img src='@/assets/logo-django.png' style="width: 250px" />
-    <p>The data below is added/removed from the SQLite Database using Django's ORM and Rest Framework.</p>
-    <br/>
+    <p>Django is a Python framework that makes it easier to create web sites using Python. <br>
+
+      Django takes care of the difficult stuff so that you can concentrate on building your web applications.</p>
+    <br />
     <p>Subject</p>
     <input type="text" placeholder="Hello" v-model="subject">
     <p>Message</p>
     <input type="text" placeholder="From the other side" v-model="msgBody">
     <br><br>
-    <input 
-      type="submit" 
-      value="Add" 
-      @click="addMessage({ subject: subject, body: msgBody })" 
+    <input type="submit" value="Add" @click="addMessage({ subject: subject, body: msgBody })"
       :disabled="!subject || !msgBody">
 
-    <hr/>
+    <hr />
     <h3>Messages on Database</h3>
     <p v-if="messages.length === 0">No Messages</p>
     <div class="msg" v-for="(msg, index) in messages" :key="index">
-        <p class="msg-index">[{{index}}]</p>
-        <p class="msg-subject" v-html="msg.subject"></p>
-        <p class="msg-body" v-html="msg.body"></p>
-        <input type="submit" @click="deleteMessage(msg.pk)" value="Delete" />
+      <p class="msg-index">[{{ index }}]</p>
+      <p class="msg-subject" v-html="msg.subject"></p>
+      <p class="msg-body" v-html="msg.body"></p>
+
+      <div v-if="msg.showAnswerInput">
+        <textarea v-model="msg.newComment" placeholder="Write your answer here"></textarea>
+        <input type="submit" value="Submit" @click="submitAnswer(msg, index)" :disabled="!msg.newComment" />
+      </div>
+
+      <input type="submit" @click="deleteMessage(msg.pk)" value="Delete" />
+      <input type="submit" @click="toggleAnswerInput(msg)" value="Answer" />
+
+      <div class="comments" v-if="msg.comments && msg.comments.length">
+        <p v-for="(comment, commentIndex) in msg.comments" :key="commentIndex">{{ comment }}</p>
+      </div>
+
     </div>
   </div>
 </template>
@@ -40,10 +51,28 @@ export default {
   computed: mapState({
     messages: state => state.messages.messages
   }),
-  methods: mapActions('messages', [
-    'addMessage',
-    'deleteMessage'
-  ]),
+  methods: {
+    ...mapActions('messages', [
+      'addMessage',
+      'deleteMessage'
+    ]),
+    toggleAnswerInput(msg) {
+      // Toggle the visibility of the answer input field
+      this.$set(msg, 'showAnswerInput', !msg.showAnswerInput);
+      if (!msg.showAnswerInput) {
+        msg.newComment = ""; // Reset the comment field when hiding the input
+      }
+    },
+    submitAnswer(msg, index) {
+      // Add the new comment to the message
+      if (!msg.comments) {
+        this.$set(msg, 'comments', []);
+      }
+      msg.comments.push(msg.newComment);
+      msg.newComment = ""; // Clear the input field
+      msg.showAnswerInput = false; // Hide the input field after submission
+    }
+  },
   created() {
     this.$store.dispatch('messages/getMessages')
   }
@@ -67,6 +96,7 @@ p {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 input[type="text"] {
   width: 30%;
   padding: 7px;
@@ -79,6 +109,7 @@ input[type="text"] {
   background-color: #f9f9f9;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 hr {
   max-width: 65%;
 }
