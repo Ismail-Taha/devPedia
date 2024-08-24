@@ -2,49 +2,43 @@
     <div class="hello">
       <img src='@/assets/q.png'>
       <h1>Django Quiz</h1>
-      <p>
-        Vue is a front-end JavaScript framework written in JavaScript.
-  
-  Similar frameworks to Vue are React and Angular, but Vue is more lightweight and easier to start with.
-  
-  Vue is distributed as a JavaScript file, and can be added to a web page <br><br>
+      <p>These links provide a series of quizzes on Django, ranging from beginner to advanced levels<br><br>
         <a href="https://www.w3schools.com/django/django_quiz.php" target="_blank" rel="noopener">w3schools Django Quiz</a>.
       </p>
       <h3>GeeksforGeeks Django Quiz</h3>
-      <p>GeeksforGeeks provides a series of quizzes on Django, ranging from beginner to advanced levels.</p>
+    
       <ul>
         <li><a href="https://www.geeksforgeeks.org/quizzes/django-quiz/" target="_blank" rel="noopener">Beginner Level</a></li>
-        <li><a href="https://eslint.org/docs/latest/" target="_blank" rel="noopener">Advanced Level</a></li>
+        <li><a href="https://www.geeksforgeeks.org/quiz-application-using-django/" target="_blank" rel="noopener">Advanced Level</a></li>
       </ul>
-      <h3> Tutorialspoint</h3>
-      <p>Tutorialspoint offers tests on Django that can help you test your understanding of the framework.</p>
+      <h1>Vue Quiz</h1>
+      <p>We offer tests on Vue that can help you test your understanding of the framework.</p>
       <ul>
-        <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-        <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-        <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
+        <li><a href="https://www.w3schools.com/vue/vue_quiz.php" target="_blank" rel="noopener">W3school Vue </a></li>
+        <li><a href="https://vuejs.org/about/community-guide" target="_blank" rel="noopener">Community Guide</a></li>
         <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-        <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
+        <li><a href="https://v2.vuejs.org/v2/guide/join" target="_blank" rel="noopener">Courses</a></li>
       </ul>
-      <h3>ProProfs Django Quiz</h3>
+      <h3>ProProfs Quiz</h3>
       <ul>
         <li><a href="https://www.proprofs.com/quiz-school/story.php?title=3dq-django-software-trivia-quiz" target="_blank" rel="noopener">coding challenges</a></li>
-        <li><a href="https://codesignal.com/" target="_blank" rel="noopener">Django quizzes</a></li>
-        <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Django courses</a></li>
+        <li><a href="https://codesignal.com/" target="_blank" rel="noopener">Vue quizzes</a></li>
+        <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Vue projects</a></li>
       </ul>
     </div>
   </template>
   
-  <script>
+<script>
   export default {
     name: 'VueDemo',
     props: {
   
     }
   }
-  </script>
+</script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
+<style scoped>
   h3 {
     color: #396F6A;
     margin: 40px 0 0;
