@@ -4,7 +4,7 @@
     <div id="nav">
       <router-link :to="{ name: 'home' }" class="nav-button">Vue</router-link> |
       <router-link :to="{ name: 'messages' }" class="nav-button" >Django</router-link> |
-      <router-link :to="{ name: 'activities' }" class="nav-button">Activity Feed</router-link>
+      <router-link :to="{ name: 'activities' }" class="nav-button">Quizzes</router-link>
     </div>
     <router-view />
   </div>

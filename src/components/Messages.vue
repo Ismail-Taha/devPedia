@@ -63,7 +63,7 @@ export default {
         msg.newComment = ""; // Reset the comment field when hiding the input
       }
     },
-    submitAnswer(msg, index) {
+    submitAnswer(msg) {
       // Add the new comment to the message
       if (!msg.comments) {
         this.$set(msg, 'comments', []);
