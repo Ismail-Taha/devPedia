@@ -1,4 +1,4 @@
-# Django Vue Template ✌️ 🐍
+# DevPedia Django Vue Template ✌️ 🐍
 
 ![Vue Logo](/src/assets/logo-vue.png "Vue Logo")
 ![Django Logo](/src/assets/logo-django.png "Django Logo")
@@ -65,8 +65,8 @@ Before getting started you should have the following installed and running:
 ## Setup Template
 
 ```
-$ git clone https://github.com/gtalarico/DevPedia-template
-$ cd DevPedia-template
+$ git clone https://github.com/gtalarico/DevPedia
+$ cd DevPedia
 ```
 
 Setup
@@ -74,6 +74,7 @@ Setup
 $ yarn install
 $ pipenv install --dev && pipenv shell
 $ python manage.py migrate
+$python manage.py runserver
 ```
 
 ## Running Development Servers
