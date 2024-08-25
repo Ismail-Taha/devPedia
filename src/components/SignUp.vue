@@ -1,46 +1,61 @@
-  <template>
-      <div class="auth-container">
-        <h2>Sign Up</h2>
-        <form @submit.prevent="signUp">
-          <div>
-            <label>Email:</label>
-            <input type="email" v-model="email" required />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input type="password" v-model="password" required />
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
+<template>
+  <div class="auth-container">
+    <h2>Sign Up</h2>
+    <form @submit.prevent="signUp">
+      <div>
+        <label>Email:</label>
+        <input type="email" v-model="email" required />
       </div>
-    </template>
+      <div>
+        <label>Password:</label>
+        <input type="password" v-model="password" required />
+      </div>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</template>
 
-    <script>
-    import { mapActions } from 'vuex';
+<script>
+import axios from 'axios';
+import { mapActions } from 'vuex';
 
-    export default {
-      data() {
-        return {
-          email: '',
-          password: ''
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    };
+  },
+  methods: {
+    ...mapActions(['register']),
+    async signUp() {
+      try {
+        const credentials = {
+          email: this.email,
+          password: this.password,
         };
-      },
-      methods: {
-        ...mapActions(['register']),
-        async signUp() {
-          const credentials = {
-            email: this.email,
-            password: this.password
-          };
-          await this.register(credentials);
-          this.$router.push('/dashboard');
+        const response = await axios.post('http://localhost:8000/api/auth/register/', credentials);
+        if (!response || !response.data) {
+          alert("No response or data received");
+          return;
+        }
+        this.$store.commit('setToken', response.data.access);
+        this.$router.push('/dashboard');
+      }
+      catch (error) {
+        if (error.response && error.response.data) {
+          alert(`Sign-up failed: ${error.response.data.detail}`);
+        } else {
+          alert(`Sign-up failed: ${error.message}`);
         }
       }
-    };
-    </script>
+    }
+  }
+}
+</script>
 
-    <style scoped>
-    .auth-container {
+<style scoped>
+.auth-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px 40px;
@@ -84,8 +99,7 @@ input[type="password"]:focus {
 button[type="submit"] {
   width: 100%;
   height: 40px;
-  background-color: #376366
-  ;
+  background-color: #376366;
   color: white;
   border: none;
   border-radius: 5px;
@@ -103,4 +117,4 @@ button[type="submit"]:hover {
     margin-top: 20vh;
   }
 }
-    </style>
+</style>

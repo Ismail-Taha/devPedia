@@ -26,17 +26,17 @@ export default new Vuex.Store({
     async login({ commit }, credentials) {
       try {
         const response = await axios.post('http://localhost:8000/api/auth/login/', credentials);
-        commit('setToken', response.data.token);
+        commit('setToken', response.data.access);
       } catch (error) {
-        console.error('Login error:', error);
+        alert('Login error:', error);
       }
     },
     async register({ commit }, credentials) {
       try {
         const response = await axios.post('http://localhost:8000/api/auth/register/', credentials);
-        commit('setToken', response.data.token);
+        commit('setToken', response.data.access);
       } catch (error) {
-        console.error('Registration error:', error);
+        alert('Registration error:', error);
       }
     },
     logout({ commit }) {

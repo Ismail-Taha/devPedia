@@ -35,12 +35,11 @@ export default {
     ...mapActions(['login', 'logout', 'addUser']),
     async signIn() {
       const credentials = {
-        username: this.username,
+        
         email: this.email,
         password: this.password
       };
       try {
-        await this.addUser(credentials);
 
         await this.login(credentials);
 
@@ -51,7 +50,7 @@ export default {
     },
     async signOut() {
       await this.logout(); // call the Vuex action to handle logout
-      this.$router.push('/signUp'); // redirect to home after logout
+      this.$router.push('/sign-up'); // redirect to home after logout
     }
   }
 };
@@ -61,12 +60,11 @@ export default {
 .auth-wrapper {
   max-width: 400px;
   margin: 0 auto;
+  padding: 20px;
   text-align: center;
 }
 
 .auth-container {
-
-
   padding: 20px;
   background-color: #D1DADB;
   border-radius: 8px;
@@ -84,8 +82,9 @@ h2 {
   color: #333;
 }
 
-form div {
+.input-group {
   margin-bottom: 15px;
+  text-align: left;
 }
 
 label {
@@ -95,23 +94,16 @@ label {
 }
 
 input {
-  width: calc(100% - 10px);
-  padding: 8px;
+  width: calc(100% - 16px);
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
-
-input[type="email"],
-input[type="password"] {
-
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
   box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
   width: 100%;
+  margin-top: 2%;
   padding: 10px;
   background-color: #376366;
   color: white;
@@ -119,11 +111,19 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #749294;
+  background-color: #2a4b4e;
+}
+
+.out {
+  margin-top: 20px;
+  background-color: #b03a3a;
+}
+
+.out:hover {
+  background-color: #8a2f2f;
 }
 </style>
