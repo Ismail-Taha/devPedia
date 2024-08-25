@@ -24,7 +24,7 @@ export default {
   created() {
     // Check if user is authenticated (this can be improved by checking a Vuex state or localStorage)
     this.isAuthenticated = !!localStorage.getItem('authToken');
-    this.$router.push('/Sign-Up')
+    this.$router.push('/')
   },
   methods: {
     logout() {

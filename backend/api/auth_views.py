@@ -8,19 +8,6 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
 
-class UpdateUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def put(self, request):
-        user = request.user
-        user.username = request.data.get('username', user.username)
-        user.email = request.data.get('email', user.email)
-        user.save()
-
-        return Response({
-            "username": user.username,
-            "email": user.email
-        }, status=status.HTTP_200_OK)
 
 class RegisterView(APIView):
     def post(self, request):
@@ -33,10 +20,10 @@ class RegisterView(APIView):
         if User.objects.filter(email=email).exists():
             return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.create(
-            username=username,
+        username=username,
              # Use email as the username
-            email=email,
-            password=make_password(password)
+        email=email,
+        password=make_password(password)
         )
         return Response({"message": "User registered successfully","username": user.username }, status=status.HTTP_201_CREATED)
 
@@ -52,3 +39,16 @@ class LoginView(APIView):
                 'access': str(refresh.access_token),
             })  
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+class UpdateUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        user.username = request.data.get('username', user.username)
+        user.email = request.data.get('email', user.email)
+        user.save()
+
+        return Response({
+            "username": user.username,
+            "email": user.email
+        }, status=status.HTTP_200_OK)

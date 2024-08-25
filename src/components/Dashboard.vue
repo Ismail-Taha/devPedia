@@ -27,7 +27,8 @@
         <!-- Dynamic Content Based on Active Page -->
         <div v-if="activePage === 'home'">
           <h2>Welcome to DevPedia</h2>
-          <p>Here is an overview of your recent activity...</p>
+          <p>help developers enhance their skills through articles</p>
+          <p>serve educational resource for developers </p>
         </div>
 
         <div v-if="activePage === 'articles'">
@@ -43,7 +44,24 @@
 
         <div v-if="activePage === 'categories'">
           <h2>Categories</h2>
-          <p>Manage your categories here...</p>
+          <form @submit.prevent="saveCategory" class="categories-container ">
+            <label for="category">Choose a category:</label>
+            <select v-model="selectedCategory" @change="loadSubcategories">
+              <option v-for="category in categories" :key="category.name" :value="category.name">
+                {{ category.name }}
+              </option>
+            </select>
+
+            <div v-if="subcategories.length">
+              <label for="subcategory">Choose a subcategory:</label>
+              <select v-model="selectedSubcategory">
+                <option v-for="subcategory in subcategories" :key="subcategory" :value="subcategory">
+                  {{ subcategory }}
+                </option>
+              </select>
+            </div>
+            <button type="submit" class="save-button">Save Category</button>
+          </form>
         </div>
 
         <div v-if="activePage === 'users'">
@@ -53,8 +71,8 @@
 
         <div v-if="activePage === 'settings'">
           <h2>Settings</h2>
-          <p>Manage your account settings here...</p>
-          <form @submit.prevent="updateSettings">
+          <p>Update Your Email</p>
+          <form @submit.prevent="updateSettings" class="settings-container">
             <div>
               <label>Username:</label>
               <input type="text" v-model="settings.username" />
@@ -67,25 +85,22 @@
           </form>
         </div>
       </div>
-
-
-      <div class="footer">
-        <p>&copy; 2024 DevPedia. All rights reserved.</p>
-      </div>
     </div>
-  </div>
+  
+
+  <div class="footer">
+    <p>&copy; 2024 DevPedia. All rights reserved.</p>
+  </div></div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
 
-
 export default {
   computed: {
     username() {
       return this.$store.state.username;
-      // Assuming you've stored the username in Vuex
     }
   },
   data() {
@@ -105,51 +120,144 @@ export default {
           content: "React is a JavaScript library for building user interfaces, maintained by Facebook..."
         }
       ],
+      categories: [
+        {
+          name: "Frontend Development",
+          subcategories: ["Vue.js", "React", "Angular", "Svelte"]
+        },
+        {
+          name: "Backend Development",
+          subcategories: ["Django", "Node.js", "Ruby on Rails", "Flask"]
+        },
+        {
+          name: "DevOps",
+          subcategories: ["Docker", "Kubernetes", "CI/CD", "AWS"]
+        }
+        // Add more categories as needed
+      ],
+      subcategories: [],
+      selectedCategory: "",
+      selectedSubcategory: "",
       settings: {
         username: this.$store.state.username,
         email: this.$store.state.email
-      },
-      signOut() {
-        // Simulate logout
-        alert("You have been logged out.");
-        this.$router.push('/home');
-      },
+      }
     };
   },
   methods: {
-    ...mapActions(['updateUserInfo']), // Assuming you have an action to update user info
+    ...mapActions(['updateUserInfo']),
 
     async updateSettings() {
       try {
         const updatedData = {
-          username: this.updatedUsername,
-          email: this.updatedEmail
+          username: this.settings.username,
+          email: this.settings.email
         };
 
         const response = await axios.put('http://localhost:8000/api/auth/user/', updatedData, {
-          headers: {
-            'Authorization': `Bearer ${this.$store.state.token}` // Pass the token for authentication
-          }
+          headers: { 'Authorization': `Bearer ${this.$store.state.token}` }
         });
 
-        // Update Vuex store with new data
         this.$store.commit('setUserInfo', response.data);
-
         alert('Settings updated!');
       } catch (error) {
         alert('Failed to update settings.');
       }
     },
+
+    loadSubcategories() {
+      const category = this.categories.find(cat => cat.name === this.selectedCategory);
+      this.subcategories = category ? category.subcategories : [];
+      this.selectedSubcategory = "";
+    },
+
+    async saveCategory() {
+      try {
+        alert(`Category "${this.selectedCategory}" and Subcategory "${this.selectedSubcategory}" saved!`);
+      } catch (error) {
+        alert('Failed to save category.');
+      }
+    },
+
     setActivePage(page) {
       this.activePage = page;
     },
 
-   
+    signOut() {
+      alert("You have been logged out.");
+      this.$router.push('/home');
+    }
   }
 };
 </script>
 
 <style scoped>
+.categories-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e4e8;
+  font-family: 'Arial', sans-serif;
+}
+
+.categories-container h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.categories-container label {
+  display: block;
+  font-weight: bold;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.categories-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #dce1e5;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease;
+}
+
+.categories-container select:focus {
+  outline: none;
+  border-color: #5dade2;
+}
+
+.categories-container .save-button {
+  width: 100%;
+  height: 45px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.categories-container .save-button:hover {
+  background-color: #229954;
+}
+
+@media (max-width: 768px) {
+  .categories-container {
+    padding: 15px;
+  }
+}
+/* Save Button Styles */
 .save-button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -167,11 +275,13 @@ export default {
   transform: translateY(-2px);
 }
 
+/* Dashboard Layout */
 .dashboard {
   display: flex;
   height: 100vh;
 }
 
+/* Sidebar Styles */
 .sidebar {
   width: 250px;
   background-color: #667166;
@@ -179,28 +289,6 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-}
-
-.categories-button {
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #5a8f8f;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.categories-button:hover {
-  background-color: #4b7b7b;
-  transform: translateY(-2px);
-}
-
-.categories-button:active {
-  background-color: #3d6464;
-  transform: translateY(0);
 }
 
 .sidebar .logo {
@@ -225,12 +313,14 @@ export default {
   transition: padding-left 0.3s ease;
 }
 
+/* Main Content Styles */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
+/* Article Styles */
 .article {
   margin-bottom: 20px;
   padding: 15px;
@@ -239,6 +329,7 @@ export default {
   background-color: #f9f9f9;
 }
 
+/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -248,6 +339,7 @@ export default {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Search Bar Styles */
 .search-bar {
   width: 300px;
   padding: 8px;
@@ -255,6 +347,7 @@ export default {
   border-radius: 4px;
 }
 
+/* User Profile Styles */
 .user-profile {
   display: flex;
   align-items: center;
@@ -265,15 +358,94 @@ export default {
   margin-right: 10px;
 }
 
-.content {
-  flex: 1;
-  padding: 20px;
-}
-
+/* Footer Styles */
 .footer {
   padding: 10px 20px;
   background-color: #34495e;
   color: white;
   text-align: center;
 }
+
+/* Settings Container Styles */
+.settings-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e4e8;
+  font-family: 'Arial', sans-serif;
+}
+
+.settings-container h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.settings-container p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.settings-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-container label {
+  font-weight: bold;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.settings-container input[type="text"],
+.settings-container input[type="email"] {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #dce1e5;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+}
+
+.settings-container input[type="text"]:focus,
+.settings-container input[type="email"]:focus {
+  outline: none;
+  border-color: #5dade2;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.settings-container .save-button {
+  width: 100%;
+  height: 45px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.settings-container .save-button:hover {
+  background-color: #229954;
+}
+
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 20px;
+    margin: 20vh auto;
+  }
+}
 </style>
+

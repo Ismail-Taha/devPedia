@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['login', 'addUser']),
+    ...mapActions(['login','logout', 'addUser']),
     async signIn() {
       const credentials = {
         
@@ -46,6 +46,7 @@ export default {
         this.$router.push('/dashboard');
 }
        catch (error) {
+        alert();
       }
     },
     async signUp() {

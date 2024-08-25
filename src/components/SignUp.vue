@@ -16,15 +16,15 @@
       </div>
       <button type="submit">Sign Up</button>
     </form>
-  
-  <h3>Already have an account ?</h3>
-  <button @click="SignIn" class="out">Sign In</button></div>
+
+    <!-- <h3>Already have an account ?</h3>
+    <button @click="SignIn" class="out">Sign In</button> -->
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex';
-import SignIn from './SignIn.vue';
 
 export default {
   data() {
@@ -57,6 +57,8 @@ export default {
           password: this.password,
         };
         const response = await axios.post('http://localhost:8000/api/auth/register/', credentials);
+        
+
         if (!response || !response.data) {
           alert("No response or data received");
           return;
@@ -81,6 +83,7 @@ h3 {
   color: #396F6A;
   margin: 40px 0 0;
 }
+
 .auth-container {
   max-width: 400px;
   margin: 0 auto;
@@ -89,10 +92,12 @@ h3 {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .out {
   margin-top: 20px;
   background-color: #b03a3a;
 }
+
 h2 {
   text-align: center;
   margin-bottom: 20px;
