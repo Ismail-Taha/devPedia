@@ -5,6 +5,22 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
+
+class UpdateUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        user.username = request.data.get('username', user.username)
+        user.email = request.data.get('email', user.email)
+        user.save()
+
+        return Response({
+            "username": user.username,
+            "email": user.email
+        }, status=status.HTTP_200_OK)
 
 class RegisterView(APIView):
     def post(self, request):

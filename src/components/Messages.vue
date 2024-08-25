@@ -5,7 +5,12 @@
 
       Django takes care of the difficult stuff so that you can concentrate on building your web applications.</p>
     <br />
-    <p>Subject</p>
+    <h3>Models and Views</h3>
+    <ul>
+      <li><a href="https://www.w3schools.com/django/django_intro.php" target="_blank" rel="noopener">Models</a></li>
+      <li><a href="https://www.w3schools.com/django/django_intro.php" target="_blank" rel="noopener">Views</a></li>
+    </ul>
+    <p>Any Subject to discuss ?</p>
     <input type="text" placeholder="Your Name" v-model="subject">
     <p>Message</p>
     <input type="text" placeholder="share your knowledge here" v-model="msgBody">
@@ -14,7 +19,7 @@
       :disabled="!subject || !msgBody">
 
     <hr/>
-    <h3>Post your issue here !</h3>
+    <h3>Post here !</h3>
     <p v-if="messages.length === 0">No Messages Yet</p>
     <div class="msg" v-for="(msg, index) in messages" :key="index">
       <p class="msg-index">[{{ index }}]</p>
@@ -97,7 +102,18 @@ p {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+h3 {
+  color: #396F6A;
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
 input[type="text"] {
   width: 30%;
   padding: 7px;

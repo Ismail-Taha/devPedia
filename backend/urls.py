@@ -8,7 +8,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from backend.api.auth_views import UpdateUserView
 from backend.api.views import index_view, MessageViewSet
 from backend.api.auth_views import RegisterView, LoginView
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/auth/register/', RegisterView.as_view(), name='register'),
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('', index_view, name='index'),
+    path('auth/user/', UpdateUserView.as_view(), name='update_user'),
 ]
 
 

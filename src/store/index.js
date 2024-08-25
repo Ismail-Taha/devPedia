@@ -13,6 +13,7 @@ export default new Vuex.Store({
     token: localStorage.getItem('authToken') || '',
   },
   mutations: {
+   
     setToken(state, token) {
       state.token = token;
       localStorage.setItem('authToken', token);
@@ -20,6 +21,10 @@ export default new Vuex.Store({
     clearToken(state) {
       state.token = '';
       localStorage.removeItem('authToken');
+    },
+    setUserInfo(state, userInfo) {
+      state.username = userInfo.username;
+      state.email = userInfo.email;
     }
   },
   actions: {
@@ -28,7 +33,7 @@ export default new Vuex.Store({
         const response = await axios.post('http://localhost:8000/api/auth/login/', credentials);
         commit('setToken', response.data.access);
       } catch (error) {
-        alert('Login error:', error);
+        alert(`Password Failed ; Again please ! ${error.response.data.error || error.response.data.detail}`);
       }
     },
     async register({ commit }, credentials) {

@@ -23,7 +23,7 @@ export default {
 <style scoped>
 .nav-button {
   color: white;
-  background-color: #42b983;
+  background-color: #4b7b7b;
   padding: 10px 15px;
   border-radius: 5px;
   text-decoration: none;

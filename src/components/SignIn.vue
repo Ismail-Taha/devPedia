@@ -15,7 +15,8 @@
         <button type="submit">Log In</button>
       </form>
     </div>
-    <button @click="signOut" class="out">Log out</button>
+    <h3>Don't have an account ?</h3>
+    <button @click="signUp" class="out">Sign up</button>
 
   </div>
 
@@ -32,7 +33,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['login', 'logout', 'addUser']),
+    ...mapActions(['login', 'addUser']),
     async signIn() {
       const credentials = {
         
@@ -42,14 +43,13 @@ export default {
       try {
 
         await this.login(credentials);
-
         this.$router.push('/dashboard');
-      } catch (error) {
-        alert("Sign-in failed. Please try again.");
+}
+       catch (error) {
       }
     },
-    async signOut() {
-      await this.logout(); // call the Vuex action to handle logout
+    async signUp() {
+     // await this.logout(); // call the Vuex action to handle logout
       this.$router.push('/sign-up'); // redirect to home after logout
     }
   }
@@ -63,7 +63,10 @@ export default {
   padding: 20px;
   text-align: center;
 }
-
+h3 {
+  color: #396F6A;
+  margin: 40px 0 0;
+}
 .auth-container {
   padding: 20px;
   background-color: #D1DADB;

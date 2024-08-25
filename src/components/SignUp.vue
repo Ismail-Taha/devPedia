@@ -4,9 +4,9 @@
     <form @submit.prevent="signUp">
       <div>
         <div>
-        <label>Username:</label>
-        <input type="text" v-model="username" required />
-      </div>
+          <label>Username:</label>
+          <input type="text" v-model="username" required />
+        </div>
         <label>Email:</label>
         <input type="email" v-model="email" required />
       </div>
@@ -16,12 +16,15 @@
       </div>
       <button type="submit">Sign Up</button>
     </form>
-  </div>
+  
+  <h3>Already have an account ?</h3>
+  <button @click="SignIn" class="out">Sign In</button></div>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex';
+import SignIn from './SignIn.vue';
 
 export default {
   data() {
@@ -35,6 +38,19 @@ export default {
     ...mapActions(['register']),
     async signUp() {
       try {
+        // Email format validation using regex
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(this.email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        // Password length validation
+        if (this.password.length < 8) {
+          alert("Password must be at least 8 characters long.");
+          return;
+        }
+
         const credentials = {
           username: this.username,
           email: this.email,
@@ -61,6 +77,10 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  color: #396F6A;
+  margin: 40px 0 0;
+}
 .auth-container {
   max-width: 400px;
   margin: 0 auto;
@@ -69,7 +89,10 @@ export default {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.out {
+  margin-top: 20px;
+  background-color: #b03a3a;
+}
 h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -85,8 +108,22 @@ label {
   margin-bottom: 10px;
 }
 
+button {
+  width: 100%;
+  margin-top: 2%;
+  padding: 10px;
+  background-color: #376366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
   width: 100%;
   height: 40px;
   margin-bottom: 15px;

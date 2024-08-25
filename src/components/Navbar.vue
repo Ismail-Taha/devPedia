@@ -3,12 +3,12 @@
     <div class="logo-container">
       <img src="@/assets/Logo.png" alt="Logo" class="logo">
     </div>
+    
     <div  class="nav-links">
       <router-link to="/" class="nav-link">Home</router-link>
-      <router-link v-if="!isAuthenticated" to="/sign-in" class="nav-link">Log In</router-link>
-      <router-link v-if="!isAuthenticated" to="/sign-up" class="nav-link">Sign Up</router-link>
-      <router-link v-if="isAuthenticated" to="/dashboard" class="nav-link">Dashboard</router-link>
-      <button v-if="isAuthenticated" @click="logout" class="nav-link">Logout</button>
+      <router-link  to="/sign-in" class="nav-link">Log In</router-link>
+      <router-link  to="/sign-up" class="nav-link">Sign Up</router-link>
+      <router-link v-if="!isAuthenticated" to="/dashboard" class="nav-link">Dashboard</router-link>
     </div>
   </nav>
 </template>
@@ -18,11 +18,13 @@ export default {
   data() {
     return {  
       isAuthenticated: false,
+      
     };
   },
   created() {
     // Check if user is authenticated (this can be improved by checking a Vuex state or localStorage)
     this.isAuthenticated = !!localStorage.getItem('authToken');
+    this.$router.push('/Sign-Up')
   },
   methods: {
     logout() {
@@ -74,7 +76,7 @@ export default {
 }
 
 .nav-link:hover {
-  color: #41B883;
+  color: #4b7b7b;
   font-size: 18px;
 }
 
