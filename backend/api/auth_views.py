@@ -8,16 +8,21 @@ from django.contrib.auth.hashers import make_password
 
 class RegisterView(APIView):
     def post(self, request):
+        username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
-        if User.objects.filter(username=email).exists():
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if User.objects.filter(email=email).exists():
             return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.create(
-            username=email,  # Use email as the username
+            username=username,
+             # Use email as the username
             email=email,
             password=make_password(password)
         )
-        return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "User registered successfully","username": user.username }, status=status.HTTP_201_CREATED)
 
 class LoginView(APIView):
     def post(self, request):

@@ -3,6 +3,10 @@
     <h2>Sign Up</h2>
     <form @submit.prevent="signUp">
       <div>
+        <div>
+        <label>Username:</label>
+        <input type="text" v-model="username" required />
+      </div>
         <label>Email:</label>
         <input type="email" v-model="email" required />
       </div>
@@ -22,6 +26,7 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
+      username: '',
       email: '',
       password: ''
     };
@@ -31,6 +36,7 @@ export default {
     async signUp() {
       try {
         const credentials = {
+          username: this.username,
           email: this.email,
           password: this.password,
         };
@@ -44,7 +50,7 @@ export default {
       }
       catch (error) {
         if (error.response && error.response.data) {
-          alert(`Sign-up failed: ${error.response.data.detail}`);
+          alert(`Sign-up failed: ${error.response.data.error || error.response.data.detail}`);
         } else {
           alert(`Sign-up failed: ${error.message}`);
         }

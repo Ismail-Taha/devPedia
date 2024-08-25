@@ -19,7 +19,8 @@
         <input type="text" placeholder="Search..." class="search-bar" />
         <div class="user-profile">
           <img src="https://via.placeholder.com/40" alt="User Avatar" />
-          <span>John Doe</span>
+          <h1>{{ username }}</h1>
+         
         </div>
       </div>
 
@@ -32,8 +33,10 @@
 
         <div v-if="activePage === 'articles'">
           <h2>Articles</h2>
-          <p>Manage your articles here...</p>
-        </div>
+          <div v-for="(article, index) in articles" :key="index" class="article">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content }}</p>
+          </div>        </div>
 
         <div v-if="activePage === 'categories'">
           <h2>Categories</h2>
@@ -60,19 +63,40 @@
 
 <script>
 export default {
+  computed: {
+    username() {
+      return this.$store.state.username;
+        // Assuming you've stored the username in Vuex
+    }
+  },
   data() {
     return {
-      activePage: 'home', // Default page
+      activePage: 'home', 
+      articles: [
+        {
+          title: "Introduction to Vue.js",
+          content: "Vue.js is a progressive JavaScript framework for building user interfaces..."
+        },
+        {
+          title: "Getting Started with Django",
+          content: "Django is a high-level Python web framework that encourages rapid development..."
+        },
+        {
+          title: "Understanding React",
+          content: "React is a JavaScript library for building user interfaces, maintained by Facebook..."
+        }
+      ]// Default page
     };
   },
   methods: {
     setActivePage(page) {
       this.activePage = page;
     },
+
     signOut() {
       // Simulate logout
       alert("You have been logged out.");
-      this.$router.push('/login');
+      this.$router.push('/home');
     }
   }
 };
@@ -119,6 +143,13 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.article {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .header {
